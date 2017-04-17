@@ -1,0 +1,16 @@
+{
+  "name": "pi-dashboard",
+  "version": "1.0.0",
+  "description": "REST API for exposing charts about raspberry pi hardware stats over time",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "restify": "4.3.0",
+    "sqlite3": "3.1.8",
+    "async-future": "3.0.0"
+  }
+}

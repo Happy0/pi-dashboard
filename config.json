@@ -1,5 +1,5 @@
 {
     "pollFrequenciesMillis": {
-        "temperature": "5000"
+        "temperature": 5000
     }
 }

@@ -11,9 +11,9 @@ module.exports = (db) => {
       })
     });
 
-  function insertTemperature(insertTemperaturePreparedStmt, timestamp, temperature_celcius) {
+  function insertTemperature(insertTemperaturePreparedStmt, timestamp, temperatureCelcius) {
     return new Promise(function(resolve, reject) {
-      insertTemperaturePreparedStmt.run(timestamp, function(maybeError) {
+      insertTemperaturePreparedStmt.run(timestamp, temperatureCelcius, function(maybeError) {
         if (maybeError) {
           reject(maybeError);
         } else {
@@ -24,8 +24,9 @@ module.exports = (db) => {
   }
 
   return {
-    writeTemperature: (timestamp, temperature_celcius) => {
-      prepareTemperatureInsertStatement.then(stmt => insertTemperature(stmt, timestamp, temperature_celcius));
+    writeTemperature: (timestamp, temperatureCelcius) => {
+      return prepareTemperatureInsertStatement.then(stmt =>
+         insertTemperature(stmt, timestamp, temperatureCelcius));
     }
   }
 }

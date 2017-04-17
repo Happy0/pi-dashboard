@@ -15,6 +15,5 @@ database.init().then(function(db) {
 
     setInterval(temperatureController.writeCurrentCpuTemperature,
       config.pollFrequenciesMillis.temperature);
-
   });
 });

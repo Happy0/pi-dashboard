@@ -1,5 +1,6 @@
 {
     "pollFrequenciesMillis": {
-        "temperature": 5000
-    }
+        "temperature": 500
+    },
+    "cpuTemperatureTopic": "cpu_temperature"
 }

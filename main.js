@@ -1,9 +1,11 @@
 var config = require("./config.json");
 var restify = require("restify");
 var Db = require("./db/init");
-var TemperatureController = require("./ctrl/cpu_temperature");
+var TemperatureSensor = require("./sensor/cpu_temperature_poller");
 
 var database = Db("db.sqlite3");
+
+var PubSub = require('pubsub-js');
 
 database.init().then(function(db) {
   var server = restify.createServer();
@@ -11,9 +13,11 @@ database.init().then(function(db) {
     console.log('pi-dashboard REST server %s listening at %s',
       server.name, server.url);
 
-    var temperatureController = TemperatureController(db);
+    var temperatureSensor = TemperatureSensor();
 
-    setInterval(temperatureController.writeCurrentCpuTemperature,
-      config.pollFrequenciesMillis.temperature);
+    temperatureSensor.startBroadcastingCPUTemperature(
+      config.pollFrequenciesMillis.temperature
+    );
+
   });
 });

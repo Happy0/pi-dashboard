@@ -12,7 +12,7 @@ module.exports = () => {
           "data": data
         }
 
-        client.send(payload);
+        client.send(JSON.stringify(payload));
       }
     });
   }

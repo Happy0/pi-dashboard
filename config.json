@@ -2,5 +2,10 @@
     "pollFrequenciesMillis": {
         "temperature": 500
     },
+    "db": {
+        "dbStoreFrequencyMillis" : 60000,
+        "dbMaxTableRows": 10000
+    },
+
     "cpuTemperatureTopic": "cpu_temperature"
 }

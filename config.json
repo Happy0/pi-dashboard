@@ -3,8 +3,9 @@
         "temperature": 500
     },
     "db": {
-        "dbStoreFrequencyMillis" : 60000,
-        "dbMaxTableRows": 10000
+        "storeFrequencyMillis" : 60000,
+        "maxTableRows": 10,
+        "path": "db.sqlite3"
     },
 
     "cpuTemperatureTopic": "cpu_temperature"

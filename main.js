@@ -9,7 +9,7 @@ var TemperatureSensor = require("./sensor/cpu_temperature_poller");
 var WebSocketBroadcaster = require("./sensor_listeners/websocket_broadcaster");
 var DbWriter = require("./sensor_listeners/db_writer_listener");
 
-var database = Db(":memory:");
+var database = Db(config.db.path);
 
 database.init().then(function(initialisedDb) {
   var server = restify.createServer();

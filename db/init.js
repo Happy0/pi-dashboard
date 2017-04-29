@@ -1,4 +1,5 @@
 var sqlite3 = require('sqlite3').verbose();
+var config = require('../config.json');
 
 module.exports = (dbPath) => {
 
@@ -19,7 +20,7 @@ module.exports = (dbPath) => {
 
   function createCpuTemperatureDataBase(db) {
     return new Promise(function(resolve, reject) {
-      var createStatement = "CREATE TABLE IF NOT EXISTS cpu_temps (unix_timestamp INTEGER, temperature INTEGER)";
+      var createStatement = "CREATE TABLE IF NOT EXISTS cpu_temps (unix_timestamp INTEGER, temperature INTEGER);"
       db.run(createStatement, function(maybeError) {
         if (maybeError) {
           reject("Error creating cpu_temps table. Error was: " + maybeError);

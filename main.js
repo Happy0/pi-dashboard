@@ -2,10 +2,9 @@ var config = require("./config.json");
 var restify = require("restify");
 var Db = require("./db/init");
 var TemperatureSensor = require("./sensor/cpu_temperature_poller");
+var WebSocketBroadcaster = require("./sensor_listeners/websocket_broadcaster");
 
 var database = Db("db.sqlite3");
-
-var PubSub = require('pubsub-js');
 
 database.init().then(function(db) {
   var server = restify.createServer();
@@ -14,10 +13,13 @@ database.init().then(function(db) {
       server.name, server.url);
 
     var temperatureSensor = TemperatureSensor();
+    var webSocketBroadcaster = WebSocketBroadcaster();
 
     temperatureSensor.startBroadcastingCPUTemperature(
       config.pollFrequenciesMillis.temperature
     );
+
+    webSocketBroadcaster.startBroadcastingSensorEvents();
 
   });
 });

@@ -12,8 +12,14 @@ module.exports = (cpuDb) => {
       var timeNowMillis = new Date().getTime();
 
       if ( (timeNowMillis - lastHandled) >= pollEvery) {
-        handler();
-        lastHandled = new Date().getTime();
+        try {
+          handler();
+        } catch (e) {
+          // I write robust code even in to programs, me ;x
+          console.error("Failed to handle " + topic + " event. Error was: " + e);
+        } finally {
+          lastHandled = new Date().getTime();
+        }
       }
 
     });

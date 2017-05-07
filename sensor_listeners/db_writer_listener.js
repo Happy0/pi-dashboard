@@ -8,12 +8,12 @@ module.exports = (cpuDb) => {
 
     var lastHandled = new Date().getTime();
 
-    PubSub.subscribe(topic, function() {
+    PubSub.subscribe(topic, function(msg, data) {
       var timeNowMillis = new Date().getTime();
 
       if ( (timeNowMillis - lastHandled) >= pollEvery) {
         try {
-          handler();
+          handler(data);
         } catch (e) {
           // I write robust code even in to programs, me ;x
           console.error("Failed to handle " + topic + " event. Error was: " + e);
@@ -26,8 +26,8 @@ module.exports = (cpuDb) => {
 
   }
 
-  function writeTemperatureEvent(time, temperatureCelcius) {
-    cpuDb.writeTemperature(time, temperatureCelcius);
+  function writeTemperatureEvent(temperatureEvent) {
+    cpuDb.writeTemperature(temperatureEvent.x, temperatureEvent.y);
   }
 
   function storeSensorEvents() {

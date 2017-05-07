@@ -27,8 +27,8 @@ module.exports = () => {
       var currentTimeMillis = getCurrentTimeMillis();
 
       var cpuTempState = {
-        'time': currentTimeMillis,
-        'temperature': cpuTemperatureCelcius
+        'x': currentTimeMillis,
+        'y': cpuTemperatureCelcius
       };
 
       PubSub.publish(config.cpuTemperatureTopic, cpuTempState);

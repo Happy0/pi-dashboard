@@ -3,7 +3,7 @@
         "temperature": 500
     },
     "db": {
-        "storeFrequencyMillis" : 60000,
+        "storeFrequencyMillis" : 30000,
         "maxTableRows": 10,
         "path": "db.sqlite3"
     },

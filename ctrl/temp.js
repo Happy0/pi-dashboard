@@ -8,7 +8,7 @@ module.exports = (tempDb) => {
 
   function keepRecentTemperaturesBufferUpdated() {
     PubSub.subscribe(config.cpuTemperatureTopic, (msg, data) => {
-      if (recentTemperaturesCapacity >= recentTemperaturesCapacity) {
+      if (recentTemperatures.length >= recentTemperaturesCapacity) {
         recentTemperatures.shift();
       }
 

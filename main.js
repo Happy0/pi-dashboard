@@ -31,7 +31,7 @@ database.init().then(function(initialisedDb) {
 
     var cpuTemperatureDb = CpuTemperatureDb(initialisedDb);
 
-    var temperatureController = TemperatureController();
+    var temperatureController = TemperatureController(cpuTemperatureDb);
     var temperatureRestHandler = TemperatureRestHandler(server, temperatureController);
     temperatureRestHandler.setupHandlers();
 

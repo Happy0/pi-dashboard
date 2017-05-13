@@ -11,8 +11,17 @@ var DbWriter = require("./sensor_listeners/db_writer_listener");
 
 var database = Db(config.db.path);
 
+var TemperatureController = require("./ctrl/temp");
+var TemperatureRestHandler = require("./rest/temperature");
+
+var createRestHandlers = function(restifyServer) {
+
+};
+
 database.init().then(function(initialisedDb) {
   var server = restify.createServer();
+  server.use(restify.queryParser());
+
   server.listen(8080, function() {
     console.log('pi-dashboard REST server %s listening at %s',
       server.name, server.url);
@@ -21,6 +30,11 @@ database.init().then(function(initialisedDb) {
     var webSocketBroadcaster = WebSocketBroadcaster();
 
     var cpuTemperatureDb = CpuTemperatureDb(initialisedDb);
+
+    var temperatureController = TemperatureController();
+    var temperatureRestHandler = TemperatureRestHandler(server, temperatureController);
+    temperatureRestHandler.setupHandlers();
+
     var dbWriter = DbWriter(cpuTemperatureDb);
 
     temperatureSensor.startBroadcastingCPUTemperature(

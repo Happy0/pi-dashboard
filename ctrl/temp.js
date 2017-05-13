@@ -1,5 +1,5 @@
 var PubSub = require('pubsub-js');
-var conf = require('../config.json');
+var config = require('../config.json');
 
 module.exports = (tempDb) => {
 

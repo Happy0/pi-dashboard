@@ -21,13 +21,15 @@ module.exports = (cpuDb) => {
           lastHandled = new Date().getTime();
         }
       }
-
     });
 
   }
 
   function writeTemperatureEvent(temperatureEvent) {
-    cpuDb.writeTemperature(temperatureEvent.x, temperatureEvent.y);
+    var time = temperatureEvent[0];
+    var temperature = temperatureEvent[1];
+
+    cpuDb.writeTemperature(time, temperature);
   }
 
   function storeSensorEvents() {

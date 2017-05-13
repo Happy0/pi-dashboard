@@ -26,10 +26,10 @@ module.exports = () => {
     getCPUTemperature().then(cpuTemperatureCelcius => {
       var currentTimeMillis = getCurrentTimeMillis();
 
-      var cpuTempState = {
-        'x': currentTimeMillis,
-        'y': cpuTemperatureCelcius
-      };
+      var cpuTempState = [
+        currentTimeMillis,
+        cpuTemperatureCelcius
+      ];
 
       PubSub.publish(config.cpuTemperatureTopic, cpuTempState);
 

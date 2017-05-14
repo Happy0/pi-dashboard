@@ -23,7 +23,7 @@ function startSensors() {
 
 function startSensorListeners(cpuTemperatureDb) {
   var webSocketBroadcaster = WebSocketBroadcaster();
-  webSocketBroadcaster.startBroadcastingSensorEvents();
+  webSocketBroadcaster.startBroadcastingSensorEvents(config.server.websocketPort);
 
   var dbWriter = DbWriter(cpuTemperatureDb);
   dbWriter.storeSensorEvents();

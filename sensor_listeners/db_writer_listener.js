@@ -12,7 +12,7 @@ module.exports = (cpuDb) => {
   }
 
   function storeSensorEvents() {
-    PubsubLimited.pollEvery(config.cpuTemperatureTopic, writeTemperatureEvent, config.db.storeFrequencyMillis);
+    PubsubLimited.pollEvery(config.topics.cpuTemperature, writeTemperatureEvent, config.db.storeFrequencyMillis);
   }
 
   return {

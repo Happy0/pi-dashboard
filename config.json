@@ -7,6 +7,10 @@
         "maxTableRows": 10,
         "path": "db.sqlite3"
     },
-
-    "cpuTemperatureTopic": "cpu_temperature"
+    "topics": {
+        "cpuTemperature": "cpu_temperature"
+    },
+    "server": {
+      "websocketPort": 9999
+    }
 }

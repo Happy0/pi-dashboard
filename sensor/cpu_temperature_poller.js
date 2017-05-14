@@ -31,7 +31,7 @@ module.exports = () => {
         cpuTemperatureCelcius
       ];
 
-      PubSub.publish(config.cpuTemperatureTopic, cpuTempState);
+      PubSub.publish(config.topics.cpuTemperature, cpuTempState);
 
     }).catch(error =>
       console.error("Error publishing CPU temperature. Error was:\n\n " + error)

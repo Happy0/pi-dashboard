@@ -17,15 +17,15 @@ module.exports = () => {
     });
   }
 
-  function startBroadcastingEvents() {
+  function startBroadcastingEvents(websocketPort) {
     var wss = new WebSocket.Server({
       perMessageDeflate: false,
-      port: 9999
+      port: websocketPort
     });
 
     var tellAllClients = tellAllWebsocketClients.bind(null, wss);
 
-    PubSub.subscribe(config.cpuTemperatureTopic, tellAllClients);
+    PubSub.subscribe(config.topics.cpuTemperature, tellAllClients);
   }
 
   return {

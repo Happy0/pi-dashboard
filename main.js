@@ -14,35 +14,40 @@ var database = Db(config.db.path);
 var TemperatureController = require("./ctrl/temp");
 var TemperatureRestHandler = require("./rest/temperature");
 
-var createRestHandlers = function(restifyServer) {
+function startSensors() {
+  var temperatureSensor = TemperatureSensor();
+  temperatureSensor.startBroadcastingCPUTemperature(
+    config.pollFrequenciesMillis.temperature
+  );
+}
 
+function startSensorListeners(cpuTemperatureDb) {
+  var webSocketBroadcaster = WebSocketBroadcaster();
+  webSocketBroadcaster.startBroadcastingSensorEvents();
+
+  var dbWriter = DbWriter(cpuTemperatureDb);
+  dbWriter.storeSensorEvents();
+}
+
+function createRestHandlers(restifyServer, cpuTemperatureDb) {
+  var temperatureController = TemperatureController(cpuTemperatureDb);
+  var temperatureRestHandler = TemperatureRestHandler(restifyServer, temperatureController);
+  temperatureRestHandler.setupHandlers();
 };
 
 database.init().then(function(initialisedDb) {
-  var server = restify.createServer();
-  server.use(restify.queryParser());
+  var restifyServer = restify.createServer();
+  restifyServer.use(restify.queryParser());
 
-  server.listen(8080, function() {
+  restifyServer.listen(8080, function() {
     console.log('pi-dashboard REST server %s listening at %s',
-      server.name, server.url);
-
-    var temperatureSensor = TemperatureSensor();
-    var webSocketBroadcaster = WebSocketBroadcaster();
+      restifyServer.name, restifyServer.url);
 
     var cpuTemperatureDb = CpuTemperatureDb(initialisedDb);
 
-    var temperatureController = TemperatureController(cpuTemperatureDb);
-    var temperatureRestHandler = TemperatureRestHandler(server, temperatureController);
-    temperatureRestHandler.setupHandlers();
-
-    var dbWriter = DbWriter(cpuTemperatureDb);
-
-    temperatureSensor.startBroadcastingCPUTemperature(
-      config.pollFrequenciesMillis.temperature
-    );
-
-    webSocketBroadcaster.startBroadcastingSensorEvents();
-    dbWriter.storeSensorEvents();
+    startSensors();
+    startSensorListeners(cpuTemperatureDb);
+    createRestHandlers(restifyServer, cpuTemperatureDb);
 
   });
 });

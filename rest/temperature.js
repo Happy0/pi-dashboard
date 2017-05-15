@@ -8,7 +8,7 @@ module.exports = (server, tempCtrl) => {
 
       res.send(response);
 
-      next();
+      return next();
     });
 
   }

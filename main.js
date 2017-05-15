@@ -39,6 +39,8 @@ database.init().then(function(initialisedDb) {
   var restifyServer = restify.createServer();
   restifyServer.use(restify.queryParser());
 
+  restifyServer.use(restify.CORS());
+
   restifyServer.listen(8080, function() {
     console.log('pi-dashboard REST server %s listening at %s',
       restifyServer.name, restifyServer.url);

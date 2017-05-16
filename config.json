@@ -1,6 +1,6 @@
 {
     "pollFrequenciesMillis": {
-        "temperature": 500
+        "temperature": 1000
     },
     "db": {
         "storeFrequencyMillis" : 30000,

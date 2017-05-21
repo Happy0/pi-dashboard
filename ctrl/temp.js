@@ -1,23 +1,23 @@
+var RollingWindow = require("./rolling_window");
 var PubSub = require('pubsub-js');
 var config = require('../config.json');
 
 module.exports = (tempDb) => {
 
   const recentTemperaturesCapacity = 200;
-  const recentTemperatures = [];
+  const recentTemperaturesRollingWindow = RollingWindow(recentTemperaturesCapacity);
 
   function keepRecentTemperaturesBufferUpdated() {
-    PubSub.subscribe(config.topics.cpuTemperature, (msg, data) => {
-      if (recentTemperatures.length >= recentTemperaturesCapacity) {
-        recentTemperatures.shift();
-      }
+  //  console.dir(recentTemperaturesRollingWindow);
 
-      recentTemperatures.push(data);
+    PubSub.subscribe(config.topics.cpuTemperature, (msg, data) => {
+      recentTemperaturesRollingWindow.push_item(data);
     });
   }
 
   function getRecentTemperatures(limit) {
-    return recentTemperatures.slice(-limit);
+    var recent = recentTemperaturesRollingWindow.getRecentItems(-limit);
+    return recent;
   }
 
   keepRecentTemperaturesBufferUpdated();

@@ -1,6 +1,7 @@
 {
     "pollFrequenciesMillis": {
-        "temperature": 1000
+        "temperature": 1000,
+        "cpu_usage": 1000
     },
     "db": {
         "storeFrequencyMillis" : 30000,
@@ -8,7 +9,8 @@
         "path": "db.sqlite3"
     },
     "topics": {
-        "cpuTemperature": "cpu_temperature"
+        "cpuTemperature": "cpu_temperature",
+        "cpuUsage": "cpu_usage"
     },
     "server": {
       "websocketPort": 9999

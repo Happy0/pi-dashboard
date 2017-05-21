@@ -5,6 +5,7 @@ var Db = require("./db/init");
 var CpuTemperatureDb = require("./db/cpu_temperature");
 
 var TemperatureSensor = require("./sensor/cpu_temperature_poller");
+var CpuUsageSensor = require("./sensor/cpu_usage_poller");
 
 var WebSocketBroadcaster = require("./sensor_listeners/websocket_broadcaster");
 var DbWriter = require("./sensor_listeners/db_writer_listener");
@@ -19,6 +20,10 @@ function startSensors() {
   temperatureSensor.startBroadcastingCPUTemperature(
     config.pollFrequenciesMillis.temperature
   );
+
+  var cpuUsageSensor = CpuUsageSensor();
+  cpuUsageSensor.startBroadcastingCpuUsage(config.pollFrequenciesMillis.cpu_usage);
+  
 }
 
 function startSensorListeners(cpuTemperatureDb) {

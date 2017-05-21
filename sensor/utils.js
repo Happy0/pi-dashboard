@@ -9,7 +9,7 @@ module.exports = () => {
 
   function execSystemCommandPromise(command) {
     return new Promise((resolve, reject) => {
-      exec("cat /sys/class/thermal/thermal_zone0/temp", function(stderr, stdout) {
+      exec(command, function(stderr, stdout) {
         if (stdout) {
           resolve(stdout);
         } else {

@@ -5,6 +5,9 @@ var PubSub = require('pubsub-js');
 module.exports = () => {
 
   function tellAllWebsocketClients(wss,msg, data) {
+
+    console.dir(data);
+
     wss.clients.forEach(function each(client) {
       if (client.readyState === WebSocket.OPEN) {
         var payload = {
@@ -25,6 +28,7 @@ module.exports = () => {
 
     var tellAllClients = tellAllWebsocketClients.bind(null, wss);
 
+    PubSub.subscribe(config.topics.cpuUsage, tellAllClients);
     PubSub.subscribe(config.topics.cpuTemperature, tellAllClients);
   }
 

@@ -6,8 +6,6 @@ module.exports = () => {
 
   function tellAllWebsocketClients(wss,msg, data) {
 
-    console.dir(data);
-
     wss.clients.forEach(function each(client) {
       if (client.readyState === WebSocket.OPEN) {
         var payload = {

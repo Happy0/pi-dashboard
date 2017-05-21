@@ -8,8 +8,6 @@ module.exports = (tempDb) => {
   const recentTemperaturesRollingWindow = RollingWindow(recentTemperaturesCapacity);
 
   function keepRecentTemperaturesBufferUpdated() {
-  //  console.dir(recentTemperaturesRollingWindow);
-
     PubSub.subscribe(config.topics.cpuTemperature, (msg, data) => {
       recentTemperaturesRollingWindow.push_item(data);
     });

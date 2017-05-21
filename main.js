@@ -13,7 +13,10 @@ var DbWriter = require("./sensor_listeners/db_writer_listener");
 var database = Db(config.db.path);
 
 var TemperatureController = require("./ctrl/temp");
+var CpuUsageController = require("./ctrl/cpu_usages");
+
 var TemperatureRestHandler = require("./rest/temperature");
+var CpuRestHandler = require('./rest/cpu');
 
 function startSensors() {
   var temperatureSensor = TemperatureSensor();
@@ -23,7 +26,6 @@ function startSensors() {
 
   var cpuUsageSensor = CpuUsageSensor();
   cpuUsageSensor.startBroadcastingCpuUsage(config.pollFrequenciesMillis.cpu_usage);
-  
 }
 
 function startSensorListeners(cpuTemperatureDb) {
@@ -37,7 +39,12 @@ function startSensorListeners(cpuTemperatureDb) {
 function createRestHandlers(restifyServer, cpuTemperatureDb) {
   var temperatureController = TemperatureController(cpuTemperatureDb);
   var temperatureRestHandler = TemperatureRestHandler(restifyServer, temperatureController);
+
+  var cpuController = CpuUsageController();
+  var cpuRestHandler = CpuRestHandler(restifyServer, cpuController);
+
   temperatureRestHandler.setupHandlers();
+  cpuRestHandler.setupHandlers();
 };
 
 database.init().then(function(initialisedDb) {

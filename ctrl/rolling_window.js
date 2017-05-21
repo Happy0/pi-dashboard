@@ -4,7 +4,6 @@ module.exports = (capacity) => {
 
   function push_item(item) {
     if (items.length >= capacity) {
-      console.log("shifting");
       items.shift();
     }
 

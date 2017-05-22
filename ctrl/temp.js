@@ -14,7 +14,7 @@ module.exports = (tempDb) => {
   }
 
   function getRecentTemperatures(limit) {
-    var recent = recentTemperaturesRollingWindow.getRecentItems(-limit);
+    var recent = recentTemperaturesRollingWindow.getRecentItems(limit);
     return recent;
   }
 

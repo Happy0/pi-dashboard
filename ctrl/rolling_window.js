@@ -11,7 +11,7 @@ module.exports = (capacity) => {
   }
 
   function getRecentItems(numItems) {
-    return items.slice(null,numItems);
+    return items.slice(-numItems);
   }
 
   return {

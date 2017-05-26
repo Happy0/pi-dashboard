@@ -1,9 +1,9 @@
-var utils = require('./utils')();
+var bash = require('../bash/bash_promise')();
 
 module.exports = (bashCommand, resultTransformer, errorDescription) => {
 
   function execute() {
-    return utils.execSystemCommandPromise(bashCommand)
+    return bash.execSystemCommandPromise(bashCommand)
       .then(resultTransformer)
       .catch(error => errorDescription + " " + error);
   }

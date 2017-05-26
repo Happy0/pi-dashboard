@@ -1,3 +1,4 @@
+const bash = require("../bash/bash_promise")();
 const config = require('../config');
 const errors = require('restify-errors');
 
@@ -12,14 +13,19 @@ module.exports = (server) => {
       return next();
     });
 
-    server.post('/bash_commands/:id:', function(req, res, next) {
+    server.post('/bash_commands/:id', function(req, res, next) {
       // Execute command
       const id = req.params.id;
       var command = config.bashCommands.find(command => command.id === id);
 
       if (command) {
-        //TODO: Execute it.
-        res.send(200, 'ok');
+        bash.execSystemCommandPromise(command.command)
+          .then(result => res.send(200, 'ok'))
+          .catch(bashError => {
+            var error = new errors.InternalServerError();
+            error.body.message = bashError.message;
+            res.send(error)
+          });
       }
       else {
         return next(new errors.NotFoundError());

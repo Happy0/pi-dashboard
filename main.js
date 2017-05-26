@@ -18,6 +18,7 @@ var CpuUsageController = require("./ctrl/cpu_usages");
 
 var TemperatureRestHandler = require("./rest/temperature");
 var CpuRestHandler = require('./rest/cpu');
+var BashCommandHandler = require('./rest/bashCommands');
 
 function startSensors() {
   var temperatureSensor = TemperatureSensor();
@@ -40,12 +41,14 @@ function startSensorListeners(cpuTemperatureDb) {
 function createRestHandlers(restifyServer, cpuTemperatureDb) {
   var temperatureController = TemperatureController(cpuTemperatureDb);
   var temperatureRestHandler = TemperatureRestHandler(restifyServer, temperatureController);
+  var bashCommandHandler = BashCommandHandler(restifyServer);
 
   var cpuController = CpuUsageController();
   var cpuRestHandler = CpuRestHandler(restifyServer, cpuController);
 
   temperatureRestHandler.setupHandlers();
   cpuRestHandler.setupHandlers();
+  bashCommandHandler.setupHandlers();
 };
 
 database.init().then(function(initialisedDb) {

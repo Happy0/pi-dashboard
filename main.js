@@ -1,4 +1,5 @@
-var config = require("./config.json");
+var config = require("./config");
+
 var restify = require("restify");
 
 var Db = require("./db/init");
@@ -53,7 +54,7 @@ database.init().then(function(initialisedDb) {
 
   restifyServer.use(restify.CORS());
 
-  restifyServer.listen(8080, function() {
+  restifyServer.listen(config.server.port, function() {
     console.log('pi-dashboard REST server %s listening at %s',
       restifyServer.name, restifyServer.url);
 

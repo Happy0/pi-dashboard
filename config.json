@@ -13,6 +13,8 @@
         "cpuUsage": "cpu_usage"
     },
     "server": {
-      "websocketPort": 9999
-    }
+      "websocketPort": 9999,
+      "port": 8080
+    },
+    "bashCommands": []
 }

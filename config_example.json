@@ -1,0 +1,25 @@
+{
+    "pollFrequenciesMillis": {
+        "temperature": 1000,
+        "cpu_usage": 1000
+    },
+    "db": {
+        "storeFrequencyMillis" : 30000,
+        "maxTableRows": 10,
+        "path": "db.sqlite3"
+    },
+    "topics": {
+        "cpuTemperature": "cpu_temperature",
+        "cpuUsage": "cpu_usage"
+    },
+    "server": {
+      "websocketPort": 9999,
+      "port": 8080
+    },
+    "bashCommands": [{
+      "id": "restart_xboxdrv",
+      "command": "sudo pkill xboxdrv && sudo xboxdrv",
+      "Description": "Restarts the xbox driver",
+      "name": "Restart xboxdrv"
+    }]
+}

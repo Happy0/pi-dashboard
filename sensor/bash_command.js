@@ -1,4 +1,4 @@
-var bash = require('../bash/bash_promise')();
+var bash = require('../bash/bash_utils')();
 
 module.exports = (bashCommand, resultTransformer, errorDescription) => {
 

@@ -1,4 +1,4 @@
-const bash = require("../bash/bash_promise")();
+const bash = require("../bash/bash_utils")();
 const config = require('../config');
 const errors = require('restify-errors');
 

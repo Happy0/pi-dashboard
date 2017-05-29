@@ -17,22 +17,28 @@ module.exports = () => {
 
   function createDisownedProcessByCommand(command, logFile) {
 
-    var options = {
-      detached: true,
-    }
-
     var outfd = null;
-    if (logFile) {
-        outFd = fs.openSync(logFile, 'a');
-        options["stdio"] = ['ignore', outFd, outFd];
-    }
+    try {
 
-    const childProcess = child_process.spawn(command, null, options);
-    childProcess.unref();
+      var options = {
+        detached: true,
+      }
 
-    if (outfd !=== null) {
-      // File descriptor is now owned by the disowned child process.
-      fs.close(fd);
+      if (logFile) {
+          outFd = fs.openSync(logFile, 'a');
+          options["stdio"] = ['ignore', outFd, outFd];
+      }
+
+      const childProcess = child_process.spawn(command, [], options);
+      childProcess.unref();
+
+    } finally {
+      if (outfd !== null) {
+        // File descriptor is now owned by the disowned child process.
+        fs.close(fd, function(err) {
+          console.error("Error closing stdout fd for command: " + command+ " error was: " + err );
+        });
+      }
     }
   }
 

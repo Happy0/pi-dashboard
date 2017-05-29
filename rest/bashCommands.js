@@ -18,7 +18,16 @@ module.exports = (server) => {
       const id = req.params.id;
       var command = config.bashCommands.find(command => command.id === id);
 
-      if (command) {
+      if (!command) {
+        return next(new errors.NotFoundError());
+      } else if (command.disown) {
+        bash.createDisownedProcessByCommand(command.command, command.stdoutFile);
+
+        res.send(200, 'Command started in a disowned process.');
+
+        return next();
+      }
+      else {
         bash.execSystemCommandPromise(command.command)
           .then(result => res.send(200, 'ok'))
           .catch(bashError => {
@@ -26,9 +35,6 @@ module.exports = (server) => {
             error.body.message = bashError.message;
             res.send(error)
           });
-      }
-      else {
-        return next(new errors.NotFoundError());
       }
 
       return next();

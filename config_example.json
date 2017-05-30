@@ -18,7 +18,7 @@
     },
     "bashCommands": [{
       "id": "restart_xboxdrv",
-      "command": "ls",
+      "command": "sudo pkill xboxdrv && sudo xboxdrv",
       "Description": "Restarts the xbox driver as it's flaky on the current kernel version sometimes.",
       "name": "Restart xboxdrv",
       "disown" : true,

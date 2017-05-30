@@ -21,9 +21,13 @@ module.exports = (server) => {
       if (!command) {
         return next(new errors.NotFoundError());
       } else if (command.disown) {
-        bash.createDisownedProcessByCommand(command.command, command.stdoutFile);
-
-        res.send(200, 'Command started in a disowned process.');
+        bash.createDisownedProcessByCommand(command.command, command.stdoutFile)
+          .then(ok => res.send(200, 'Command started in a disowned process.'))
+          .catch(bashError => {
+            var error = new errors.InternalServerError();
+            error.body.message = bashError.message;
+            res.send(error);
+          });
 
         return next();
       }

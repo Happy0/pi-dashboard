@@ -15,31 +15,35 @@ module.exports = () => {
     });
   }
 
-  function createDisownedProcessByCommand(command, logFile) {
+  function createDisownedProcessOptions(logFile) {
 
-    var outfd = null;
-    try {
-
-      var options = {
-        detached: true,
-      }
-
-      if (logFile) {
-          outFd = fs.openSync(logFile, 'a');
-          options["stdio"] = ['ignore', outFd, outFd];
-      }
-
-      const childProcess = child_process.spawn(command, [], options);
-      childProcess.unref();
-
-    } finally {
-      if (outfd !== null) {
-        // File descriptor is now owned by the disowned child process.
-        fs.close(fd, function(err) {
-          console.error("Error closing stdout fd for command: " + command+ " error was: " + err );
-        });
-      }
+    const options = {
+      detached: true,
     }
+
+    return new Promise((resolve, reject) => {
+      if (logFile) {
+        fs.open(logFile, 'a', (err, outFd) => {
+          if (err) reject(err);
+
+          options["stdio"] =  ['ignore', outFd, outFd];
+          resolve(options);
+        });
+      } else {
+        resolve(options);
+      }
+    })
+  }
+
+  function createDisownedProcessByCommand(command, logFile) {
+    return createDisownedProcessOptions(logFile).then(options => {
+      const childProcess = child_process.spawn(command, [], options);
+
+      childProcess.on('error', err => console.log("error spawning disowned process by command: " + command + " error was: " + err));
+
+      childProcess.unref();
+      return childProcess;
+    });
   }
 
   return {
